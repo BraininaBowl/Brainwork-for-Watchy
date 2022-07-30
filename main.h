@@ -9,6 +9,7 @@
 #define MAIN_H
 
 #include <Watchy.h>
+#include "brutus_vis.h"
 #include "bahn_vis.h"
 #include "maze_vis.h"
 
@@ -18,11 +19,13 @@ class WatchyBrain : public Watchy {
   using Watchy::Watchy;
   public:
     void drawWatchFace();
+    void drawBrutus(bool light);
     void drawBahn(bool light);
     void drawMaze(bool light);
     virtual void handleButtonPress();//Must be virtual in Watchy.h too
 };
 
+#include "brutus.h"
 #include "bahn.h"
 #include "maze.h"
 
@@ -32,45 +35,39 @@ void WatchyBrain::handleButtonPress() {
     uint64_t wakeupBit = esp_sleep_get_ext1_wakeup_status();
     if (wakeupBit & UP_BTN_MASK) {
       face += 1;
-    } else if (wakeupBit & DOWN_BTN_MASK) {
-      face -= 1;
-    } else if (wakeupBit & BACK_BTN_MASK) {
-      if (light == false) {
-        light = true;
-        //display.epd2.setDarkBorder(false);
-      } else {
-        light = false;
-        //display.epd2.setDarkBorder(true);
-      }
-    }
-    if (face < 0 ) {face = 1;}
-    if (face > 1 ) {face = 0;}
-    if (wakeupBit & (DOWN_BTN_MASK | UP_BTN_MASK | BACK_BTN_MASK)) {
+      if (face > 2 ) {face = 0;}
       //Face changed, show immediately
       RTC.read(currentTime);
       showWatchFace(true);
-      Watchy::handleButtonPress();
-    }
-    else Watchy::handleButtonPress();
-  } else Watchy::handleButtonPress(); //Watchy handles menus etc.
+    } else if (wakeupBit & DOWN_BTN_MASK) {
+      face -= 1;
+      if (face < 0 ) {face = 1;}
+      //Face changed, show immediately
+      RTC.read(currentTime);
+      showWatchFace(true);
+    } else if (wakeupBit & BACK_BTN_MASK) {
+      light = light ? false : true;
+      //Face changed, show immediately
+      RTC.read(currentTime);
+      showWatchFace(true);
+    } else {Watchy::handleButtonPress();}
+  } else {Watchy::handleButtonPress();} //Watchy handles menus etc.
 }
 
 
 void WatchyBrain::drawWatchFace() {
-
-
-
   // ** UPDATE **
   //resets step counter at midnight everyday
   if (currentTime.Hour == 00 && currentTime.Minute == 00) {
     sensor.resetStepCounter();
   }
   if (face == 0) {
+    drawBrutus(light);  
+  } else if (face == 1) {
     drawBahn(light);  
-  } else {
+  } else if (face == 1) {
     drawMaze(light);
   }
-  
 }
 
 #endif

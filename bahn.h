@@ -11,7 +11,7 @@ void WatchyBrain::drawBahn(bool light) {
 
   //drawbg
   display.fillScreen(light ? GxEPD_WHITE : GxEPD_BLACK);
-  display.fillRoundRect(2, 2, 196, 196, 8, light ? GxEPD_BLACK : GxEPD_WHITE);
+  display.fillRoundRect(2, 2, 196, 196, 8, GxEPD_BLACK);
   display.fillRoundRect(6, 6, 188, 188, 5, light ? GxEPD_WHITE : GxEPD_BLACK);
 
   display.setFont(&DIN_1451_Engschrift_Regular64pt7b);
