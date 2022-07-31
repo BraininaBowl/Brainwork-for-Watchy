@@ -1,10 +1,3 @@
-#ifndef FIRST
-  #define FIRST
-  // ** INIT **
-  bool light = true;
-  int face = 0;
-#endif
-
 #ifndef MAIN_H
 #define MAIN_H
 
@@ -17,11 +10,13 @@
 
 class WatchyBrain : public Watchy {
   using Watchy::Watchy;
+  bool light = true;
+  int face = 0;
   public:
     void drawWatchFace();
-    void drawBrutus(bool light);
-    void drawBahn(bool light);
-    void drawMaze(bool light);
+    void drawBrutus(bool light, float batt);
+    void drawBahn(bool light, float batt);
+    void drawMaze(bool light, float batt);
     virtual void handleButtonPress();//Must be virtual in Watchy.h too
 };
 
@@ -29,29 +24,41 @@ class WatchyBrain : public Watchy {
 #include "bahn.h"
 #include "maze.h"
 
+
 void WatchyBrain::handleButtonPress() {
   if (guiState == WATCHFACE_STATE) {
     //Up and Down switch watch faces
     uint64_t wakeupBit = esp_sleep_get_ext1_wakeup_status();
     if (wakeupBit & UP_BTN_MASK) {
-      face += 1;
-      if (face > 2 ) {face = 0;}
-      //Face changed, show immediately
+      face = face - 1;
+      if (face < 0 ) {
+        face = 2;
+      }
       RTC.read(currentTime);
-      showWatchFace(true);
-    } else if (wakeupBit & DOWN_BTN_MASK) {
-      face -= 1;
-      if (face < 0 ) {face = 1;}
-      //Face changed, show immediately
+      showWatchFace(false);
+      return;
+    }
+    if (wakeupBit & DOWN_BTN_MASK) {
+      face = face + 1;
+      if (face > 2 ) {
+        face = 0;
+      }
       RTC.read(currentTime);
-      showWatchFace(true);
-    } else if (wakeupBit & BACK_BTN_MASK) {
-      light = light ? false : true;
-      //Face changed, show immediately
+      showWatchFace(false);
+      return;
+    }
+    if (wakeupBit & BACK_BTN_MASK) {
+      light = !light;
       RTC.read(currentTime);
-      showWatchFace(true);
-    } else {Watchy::handleButtonPress();}
-  } else {Watchy::handleButtonPress();} //Watchy handles menus etc.
+      showWatchFace(false);
+      return;
+    } 
+    if (wakeupBit & MENU_BTN_MASK) {
+      Watchy::handleButtonPress();
+      return;
+    }
+  } else {Watchy::handleButtonPress();}
+  return;
 }
 
 
@@ -61,12 +68,22 @@ void WatchyBrain::drawWatchFace() {
   if (currentTime.Hour == 00 && currentTime.Minute == 00) {
     sensor.resetStepCounter();
   }
+
+  // ** GET BATTERY **
+  float batt = (getBatteryVoltage()-3.3);
+  if (batt > 1) {
+    batt = 1;
+  }
+  
+  // ** DRAW WATCHFACE **
   if (face == 0) {
-    drawBrutus(light);  
-  } else if (face == 1) {
-    drawBahn(light);  
-  } else if (face == 1) {
-    drawMaze(light);
+    drawBrutus(light, batt);
+  }
+  if (face == 1) {
+    drawBahn(light, batt);  
+  }
+  if (face == 2) {
+    drawMaze(light, batt);
   }
 }
 

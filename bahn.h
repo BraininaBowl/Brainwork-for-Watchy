@@ -1,4 +1,4 @@
-void WatchyBrain::drawBahn(bool light) {
+void WatchyBrain::drawBahn(bool light, float batt) {
 
 
     // ** SETUP **
@@ -39,7 +39,6 @@ void WatchyBrain::drawBahn(bool light) {
   display.fillRoundRect(16, 16, 34, 12, 4, light ? GxEPD_BLACK : GxEPD_WHITE);
   display.fillRoundRect(49, 20, 3, 4, 2, light ? GxEPD_BLACK : GxEPD_WHITE);
   display.fillRoundRect(18, 18, 30, 8, 3, light ? GxEPD_WHITE : GxEPD_BLACK);
-  float batt = (getBatteryVoltage()-3.3);
   if (batt > 0) {
     display.fillRoundRect(20, 20, 26 * batt, 4, 2, light ? GxEPD_BLACK : GxEPD_WHITE);
   }

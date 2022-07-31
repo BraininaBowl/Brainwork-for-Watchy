@@ -1,11 +1,11 @@
-void WatchyBrain::drawBrutus(bool light) {
+void WatchyBrain::drawBrutus(bool light, float batt) {
   const unsigned char *numbers_large [10] = {brutuslarge_0,brutuslarge_1,brutuslarge_2,brutuslarge_3,brutuslarge_4,brutuslarge_5,brutuslarge_6,brutuslarge_7,brutuslarge_8,brutuslarge_9};
   const unsigned char *numbers_small [10] = {brutussmall_0,brutussmall_1,brutussmall_2,brutussmall_3,brutussmall_4,brutussmall_5,brutussmall_6,brutussmall_7,brutussmall_8,brutussmall_9};
             
-      //drawbg
+      // drawbg
       display.fillScreen(light ? GxEPD_WHITE : GxEPD_BLACK);
 
-      //draw time
+      // draw time
       display.fillRect(0,0,98,90, light ? GxEPD_BLACK : GxEPD_WHITE);
       display.drawBitmap(0, 0, numbers_large[currentTime.Hour/10], 98, 90, light ? GxEPD_WHITE : GxEPD_BLACK);
       display.fillRect(102,0,98,90, light ? GxEPD_BLACK : GxEPD_WHITE);  
@@ -27,10 +27,6 @@ void WatchyBrain::drawBrutus(bool light) {
       display.fillRect(38,188,6,12, light ? GxEPD_BLACK : GxEPD_WHITE);
       display.drawBitmap(38, 188, numbers_small[currentTime.Month%10], 6, 12, light ? GxEPD_WHITE : GxEPD_BLACK);
 
-
-
-
-
       // draw steps
       int textstring = sensor.getCounter();
       display.fillRect(194, 188, 6, 12, light ? GxEPD_BLACK : GxEPD_WHITE);
@@ -47,10 +43,10 @@ void WatchyBrain::drawBrutus(bool light) {
       display.drawBitmap(154, 188, numbers_small[textstring/100000], 6, 12, light ? GxEPD_WHITE : GxEPD_BLACK);
       display.fillRect(146, 188, 6, 12, light ? GxEPD_BLACK : GxEPD_WHITE);
       display.drawBitmap(146, 188, numbers_small[textstring/1000000], 6, 12, light ? GxEPD_WHITE : GxEPD_BLACK);
-      display.fillRect(138, 188, 6, 12, light ? GxEPD_BLACK : GxEPD_WHITE);
-      display.drawBitmap(138, 188, numbers_small[textstring/10000000], 6, 12, light ? GxEPD_WHITE : GxEPD_BLACK);
-      display.fillRect(130, 188, 6, 12, light ? GxEPD_BLACK : GxEPD_WHITE);
-      display.drawBitmap(130, 188, numbers_small[textstring/100000000], 6, 12, light ? GxEPD_WHITE : GxEPD_BLACK);
-      display.fillRect(120, 188, 6, 12, light ? GxEPD_BLACK : GxEPD_WHITE);
-      display.drawBitmap(120, 188, brutusstep, 6, 12, light ? GxEPD_WHITE : GxEPD_BLACK);
+      display.fillRect(136, 188, 6, 12, light ? GxEPD_BLACK : GxEPD_WHITE);
+      display.drawBitmap(136, 188, brutusstep, 6, 12, light ? GxEPD_WHITE : GxEPD_BLACK);
+
+      // draw battery
+      display.fillRect(48,188,84,8,light ? GxEPD_BLACK : GxEPD_WHITE);
+      display.fillRect(48,198,84*batt,2,light ? GxEPD_BLACK : GxEPD_WHITE);
 }

@@ -1,4 +1,4 @@
-void WatchyBrain::drawMaze(bool light) {
+void WatchyBrain::drawMaze(bool light, float batt) {
   const unsigned char *images [10] = {img0,img1,img2,img3,img4,img5,img6,img7,img8,img9};
             
       //drawbg
@@ -18,7 +18,6 @@ void WatchyBrain::drawMaze(bool light) {
       display.drawBitmap(107, 107, images[currentTime.Minute%10], 66, 66, light ? GxEPD_WHITE : GxEPD_BLACK);
      
       // draw battery
-      float batt = (getBatteryVoltage()-3.3)/0.9;
       if (batt > 0) {
        display.fillRect(0,185,2,12*batt,light ? GxEPD_BLACK : GxEPD_WHITE);
       }   
