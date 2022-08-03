@@ -1,6 +1,8 @@
 
 # Brainwork for Watchy
 
+![Screenshots](https://github.com/BraininaBowl/Brainwork-for-Watchy/blob/main/Brainwork.gif)
+
 A simple framework containing a handful of my watchfaces with a dark/light mode switch.
 
 ### How to install
