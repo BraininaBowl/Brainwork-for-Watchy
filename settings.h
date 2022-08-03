@@ -23,6 +23,7 @@ watchySettings settings{
     NTP_SERVER,
     GMT_OFFSET_SEC,
     DST_OFFSET_SEC
+    
 };
 
 #endif
