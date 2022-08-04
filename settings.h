@@ -3,7 +3,7 @@
 
 //Weather Settings
 #define CITY_ID "2755420" //Gouda https://openweathermap.org/current#cityid
-#define OPENWEATHERMAP_APIKEY "2127800b6bff712a4041c9e591b101fe" //use your own API key :)
+#define OPENWEATHERMAP_APIKEY "[get your key at openweathermap]" //use your own API key :)
 #define OPENWEATHERMAP_URL "http://api.openweathermap.org/data/2.5/weather?id=" //open weather api
 #define TEMP_UNIT "metric" //metric = Celsius , imperial = Fahrenheit
 #define TEMP_LANG "en"
