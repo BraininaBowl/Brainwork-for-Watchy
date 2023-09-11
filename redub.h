@@ -1,4 +1,4 @@
-void WatchyBrain::drawRedub(bool light, float batt) {
+void WatchyBrain::drawRedub(int variant, float batt) {
 
 
     // ** SETUP **
@@ -8,10 +8,10 @@ void WatchyBrain::drawRedub(bool light, float batt) {
       String textstring, texthold;
       
       //drawbg
-      display.fillScreen(light ? GxEPD_BLACK : GxEPD_WHITE);
-      display.drawBitmap(0, 0, redub_background, 200, 200, light ? GxEPD_WHITE : GxEPD_BLACK);
+      display.fillScreen((variant == 0) ? GxEPD_BLACK : GxEPD_WHITE);
+      display.drawBitmap(0, 0, redub_background, 200, 200, (variant == 0) ? GxEPD_WHITE : GxEPD_BLACK);
       
-      display.setTextColor(light ? GxEPD_BLACK : GxEPD_WHITE);
+      display.setTextColor((variant == 0) ? GxEPD_BLACK : GxEPD_WHITE);
       display.setTextWrap(false);
 
       //draw date
@@ -73,7 +73,7 @@ void WatchyBrain::drawRedub(bool light, float batt) {
 
       // draw battery
       if (batt > 0) {
-       display.fillRect(160,53,15*batt,6,light ? GxEPD_BLACK : GxEPD_WHITE);
+       display.fillRect(160,53,15*batt,6,(variant == 0) ? GxEPD_BLACK : GxEPD_WHITE);
       }   
 
 }

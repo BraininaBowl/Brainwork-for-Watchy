@@ -1,8 +1,8 @@
-void WatchyBrain::drawBrutus(bool light, float batt) {
+void WatchyBrain::drawBrutus(int variant, float batt) {
   const unsigned char *numbers_large [10] = {brutuslarge_0,brutuslarge_1,brutuslarge_2,brutuslarge_3,brutuslarge_4,brutuslarge_5,brutuslarge_6,brutuslarge_7,brutuslarge_8,brutuslarge_9};
   const unsigned char *numbers_small [10] = {brutussmall_0,brutussmall_1,brutussmall_2,brutussmall_3,brutussmall_4,brutussmall_5,brutussmall_6,brutussmall_7,brutussmall_8,brutussmall_9};
-  const uint16_t color = light ? GxEPD_WHITE : GxEPD_BLACK;
-  const uint16_t opposite_color  = light ? GxEPD_BLACK : GxEPD_WHITE;
+  const uint16_t color = (variant == 0) ? GxEPD_WHITE : GxEPD_BLACK;
+  const uint16_t opposite_color  = (variant == 0) ? GxEPD_BLACK : GxEPD_WHITE;
 
       // drawbg
       display.fillScreen(color);

@@ -1,4 +1,4 @@
-void WatchyBrain::drawBahn(bool light, float batt) {
+void WatchyBrain::drawBahn(int variant, float batt) {
 
 
     // ** SETUP **
@@ -10,12 +10,12 @@ void WatchyBrain::drawBahn(bool light, float batt) {
   // ** DRAW **
 
   //drawbg
-  display.fillScreen(light ? GxEPD_WHITE : GxEPD_BLACK);
+  display.fillScreen((variant == 0) ? GxEPD_WHITE : GxEPD_BLACK);
   display.fillRoundRect(2, 2, 196, 196, 8, GxEPD_BLACK);
-  display.fillRoundRect(6, 6, 188, 188, 5, light ? GxEPD_WHITE : GxEPD_BLACK);
+  display.fillRoundRect(6, 6, 188, 188, 5, (variant == 0) ? GxEPD_WHITE : GxEPD_BLACK);
 
   display.setFont(&DIN_1451_Engschrift_Regular64pt7b);
-  display.setTextColor(light ? GxEPD_BLACK : GxEPD_WHITE);
+  display.setTextColor((variant == 0) ? GxEPD_BLACK : GxEPD_WHITE);
   display.setTextWrap(false);
 
   //draw hours
@@ -36,11 +36,11 @@ void WatchyBrain::drawBahn(bool light, float batt) {
   display.print(textstring);
 
   // draw battery
-  display.fillRoundRect(16, 16, 34, 12, 4, light ? GxEPD_BLACK : GxEPD_WHITE);
-  display.fillRoundRect(49, 20, 3, 4, 2, light ? GxEPD_BLACK : GxEPD_WHITE);
-  display.fillRoundRect(18, 18, 30, 8, 3, light ? GxEPD_WHITE : GxEPD_BLACK);
+  display.fillRoundRect(16, 16, 34, 12, 4, (variant == 0) ? GxEPD_BLACK : GxEPD_WHITE);
+  display.fillRoundRect(49, 20, 3, 4, 2, (variant == 0) ? GxEPD_BLACK : GxEPD_WHITE);
+  display.fillRoundRect(18, 18, 30, 8, 3, (variant == 0) ? GxEPD_WHITE : GxEPD_BLACK);
   if (batt > 0) {
-    display.fillRoundRect(20, 20, 26 * batt, 4, 2, light ? GxEPD_BLACK : GxEPD_WHITE);
+    display.fillRoundRect(20, 20, 26 * batt, 4, 2, (variant == 0) ? GxEPD_BLACK : GxEPD_WHITE);
   }
   
    
@@ -51,11 +51,11 @@ void WatchyBrain::drawBahn(bool light, float batt) {
   textstring += " steps";
   display.setFont(&DIN_1451_Engschrift_Regular12pt7b);
   display.getTextBounds(textstring, 0, 0, &x1, &y1, &w, &h);
-  display.fillRoundRect(16, lasty - h - 2, w + 7, h + 4, 2, light ? GxEPD_BLACK : GxEPD_WHITE);
+  display.fillRoundRect(16, lasty - h - 2, w + 7, h + 4, 2, (variant == 0) ? GxEPD_BLACK : GxEPD_WHITE);
   display.setCursor(19, lasty - 3);
-  display.setTextColor(light ? GxEPD_WHITE : GxEPD_BLACK);
+  display.setTextColor((variant == 0) ? GxEPD_WHITE : GxEPD_BLACK);
   display.print(textstring);
-  display.setTextColor(light ? GxEPD_BLACK : GxEPD_WHITE);
+  display.setTextColor((variant == 0) ? GxEPD_BLACK : GxEPD_WHITE);
   lasty += -8 - h;
 
   // draw year
