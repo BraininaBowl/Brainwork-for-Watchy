@@ -5,19 +5,21 @@
 #include "brain_vis.h"
 
 RTC_DATA_ATTR int face = 0;
-RTC_DATA_ATTR int faces_vars[5][2] = {{1,0},{1,0},{1,0},{1,0},{2,0}}; //variants, current
-//Brutus, Bahn, Maze, Redub, Novel
+RTC_DATA_ATTR int faces_vars[6][2] = {{1,0},{1,0},{1,0},{1,0},{2,0},{1,0}}; //variants, current
+//Brutus, Bahn, Maze, Redub, Novel, Hobbit
 
 class WatchyBrain : public Watchy {
   using Watchy::Watchy;
   public:
     void drawWatchFace();
     void drawWrapText(String text);
+    void drawCentered(String text, int y2);
     void drawBrutus(int variant, float batt);
     void drawBahn(int variant, float batt);
     void drawMaze(int variant, float batt);
     void drawRedub(int variant, float batt);
     void drawNovel(int variant, float batt);
+    void drawHobbit(int variant, float batt);
     virtual void handleButtonPress();//Must be virtual in Watchy.h too
 };
 
@@ -26,6 +28,7 @@ class WatchyBrain : public Watchy {
 #include "maze.h"
 #include "redub.h"
 #include "novel.h"
+#include "hobbit.h"
 
 void WatchyBrain::handleButtonPress() {
   if (guiState == WATCHFACE_STATE) {
@@ -33,14 +36,14 @@ void WatchyBrain::handleButtonPress() {
     uint64_t wakeupBit = esp_sleep_get_ext1_wakeup_status();
     if (wakeupBit & UP_BTN_MASK) {
       face--;
-      if (face < 0 ) { face = 4; }
+      if (face < 0 ) { face = 5; }
       RTC.read(currentTime);
       showWatchFace(true);
       return;
     }
     if (wakeupBit & DOWN_BTN_MASK) {
       face++;
-      if (face > 4 ) { face = 0; }
+      if (face > 5 ) { face = 0; }
       RTC.read(currentTime);
       showWatchFace(true);
       return;
@@ -87,6 +90,9 @@ void WatchyBrain::drawWatchFace() {
   }
   if (face == 4) {
     drawNovel(faces_vars[face][1], batt);
+  }
+  if (face == 5) {
+    drawHobbit(faces_vars[face][1], batt);
   }
 }
 
